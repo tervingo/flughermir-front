@@ -48,6 +48,12 @@ export function Scene3D({ telemetry }: Scene3DProps) {
     const ground = new THREE.Mesh(groundGeom, new THREE.MeshStandardMaterial({ color: 0x2d5a27 }))
     ground.rotation.x = -Math.PI / 2
     scene.add(ground)
+    // Runway strip (flat, for takeoff/landing reference)
+    const runwayGeom = new THREE.PlaneGeometry(800, 25)
+    const runway = new THREE.Mesh(runwayGeom, new THREE.MeshStandardMaterial({ color: 0x555555 }))
+    runway.rotation.x = -Math.PI / 2
+    runway.position.y = 0.01
+    scene.add(runway)
 
     // Sun
     const light = new THREE.DirectionalLight(0xffffff, 1)

@@ -1,5 +1,7 @@
 import type { Telemetry } from './types'
 import { AttitudeIndicator } from './AttitudeIndicator'
+import { AirspeedIndicator } from './AirspeedIndicator'
+import { Altimeter } from './Altimeter'
 
 interface HUDProps {
   telemetry: Telemetry | null
@@ -40,8 +42,18 @@ export function HUD({ telemetry, connected, gamepadConnected = false }: HUDProps
           )}
         </div>
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          flex: 1,
+          gap: 24,
+        }}
+      >
+        <AirspeedIndicator telemetry={telemetry} size={100} />
         <AttitudeIndicator telemetry={telemetry} size={140} />
+        <Altimeter telemetry={telemetry} size={100} />
       </div>
       <div style={{ alignSelf: 'center', fontSize: 14, textAlign: 'center' }}>
         <div>W/S throttle · A/D aileron · ↑/↓ elevator · Q/E rudder</div>

@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/attitudeindicator.tsx","./src/hud.tsx","./src/scene3d.tsx","./src/main.tsx","./src/types.ts","./src/usegamepadcontrols.ts","./src/usekeyboardcontrols.ts","./src/usesimwebsocket.ts","./src/vite-env.d.ts"],"version":"5.6.3"}
+{"root":["./src/airspeedindicator.tsx","./src/altimeter.tsx","./src/app.tsx","./src/attitudeindicator.tsx","./src/hud.tsx","./src/scene3d.tsx","./src/main.tsx","./src/types.ts","./src/usegamepadcontrols.ts","./src/usekeyboardcontrols.ts","./src/usesimwebsocket.ts","./src/vite-env.d.ts"],"version":"5.6.3"}
