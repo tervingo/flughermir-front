@@ -19,12 +19,14 @@ export function Scene3D({ telemetry }: Scene3DProps) {
     const container = containerRef.current
     if (!container) return
 
+    const w = Math.max(1, container.clientWidth || window.innerWidth)
+    const h = Math.max(1, container.clientHeight || window.innerHeight)
     const scene = new THREE.Scene()
     scene.background = new THREE.Color(0x87ceeb)
-    const camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 10000)
+    const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 10000)
     camera.position.set(0, 0, 50)
     const renderer = new THREE.WebGLRenderer({ antialias: true })
-    renderer.setSize(container.clientWidth, container.clientHeight)
+    renderer.setSize(w, h)
     renderer.setPixelRatio(window.devicePixelRatio)
     container.appendChild(renderer.domElement)
 

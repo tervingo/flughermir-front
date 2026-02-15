@@ -8,7 +8,10 @@ interface AttitudeIndicatorProps {
 export function AttitudeIndicator({ telemetry, size = 120 }: AttitudeIndicatorProps) {
   if (!telemetry) {
     return (
-      <div style={{ width: size, height: size, borderRadius: '50%', background: '#1a1a2e', border: '2px solid #333' }} />
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+        <div style={{ width: size, height: size, borderRadius: '50%', background: '#1a1a2e', border: '2px solid #333' }} />
+        <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.9)' }}>Waiting for sim…</span>
+      </div>
     )
   }
   const pitch = -telemetry.theta_deg * 2
