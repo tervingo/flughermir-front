@@ -8,7 +8,7 @@ export function useSimWebSocket() {
   const [connected, setConnected] = useState(false)
   const wsRef = useRef<WebSocket | null>(null)
   const controlsRef = useRef<Controls>({
-    throttle: 0.3,
+    throttle: 0,
     elevator: 0,
     aileron: 0,
     rudder: 0,
