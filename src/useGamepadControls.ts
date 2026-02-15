@@ -5,7 +5,7 @@ import type { Controls } from './types'
 const AXIS = {
   aileron: 0,   // stick X
   elevator: 1,   // stick Y
-  throttle: 2,   // throttle lever
+  throttle: 4,   // throttle lever
   rudder: 3,     // twist or pedals
 } as const
 
