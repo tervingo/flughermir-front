@@ -11,9 +11,7 @@ export function AttitudeIndicator({ telemetry, size = 120 }: AttitudeIndicatorPr
       <div style={{ width: size, height: size, borderRadius: '50%', background: '#1a1a2e', border: '2px solid #333' }} />
     )
   }
-  const roll = telemetry.phi_deg * (Math.PI / 180)
   const pitch = -telemetry.theta_deg * 2
-  const cx = size / 2
   const cy = size / 2
   return (
     <div

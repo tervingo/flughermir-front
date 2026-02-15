@@ -12,7 +12,7 @@ export function Scene3D({ telemetry }: Scene3DProps) {
     scene: THREE.Scene
     camera: THREE.PerspectiveCamera
     renderer: THREE.WebGLRenderer
-    plane: THREE.Mesh
+    plane: THREE.Group
   } | null>(null)
 
   useEffect(() => {
