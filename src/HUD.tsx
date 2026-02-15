@@ -1,7 +1,9 @@
+import { useState } from 'react'
 import type { Telemetry } from './types'
 import { AttitudeIndicator } from './AttitudeIndicator'
 import { AirspeedIndicator } from './AirspeedIndicator'
 import { Altimeter } from './Altimeter'
+import { resetSim } from './api'
 
 interface HUDProps {
   telemetry: Telemetry | null
@@ -10,6 +12,17 @@ interface HUDProps {
 }
 
 export function HUD({ telemetry, connected, gamepadConnected = false }: HUDProps) {
+  const [resetting, setResetting] = useState(false)
+  const handleReset = async () => {
+    setResetting(true)
+    try {
+      await resetSim()
+    } catch {
+      // ignore
+    } finally {
+      setResetting(false)
+    }
+  }
   return (
     <div
       style={{
@@ -30,7 +43,26 @@ export function HUD({ telemetry, connected, gamepadConnected = false }: HUDProps
           {connected ? 'WS connected' : 'WS disconnected'}
           {gamepadConnected && ' · Joystick'}
         </span>
-        <div style={{ textAlign: 'right', fontSize: 18 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+          <button
+            type="button"
+            onClick={handleReset}
+            disabled={resetting || !connected}
+            style={{
+              pointerEvents: 'auto',
+              padding: '6px 12px',
+              fontSize: 12,
+              fontFamily: 'monospace',
+              background: 'rgba(0,0,0,0.6)',
+              color: 'white',
+              border: '1px solid #666',
+              borderRadius: 4,
+              cursor: connected ? 'pointer' : 'not-allowed',
+            }}
+          >
+            {resetting ? 'Resetting…' : 'Reset'}
+          </button>
+          <div style={{ textAlign: 'right', fontSize: 18 }}>
           {telemetry ? (
             <>
               <div>AS {telemetry.airspeed.toFixed(0)} m/s</div>
@@ -40,6 +72,7 @@ export function HUD({ telemetry, connected, gamepadConnected = false }: HUDProps
           ) : (
             '—'
           )}
+          </div>
         </div>
       </div>
       <div
