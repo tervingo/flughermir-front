@@ -4,17 +4,18 @@ const SIZE = 100
 const CX = SIZE / 2
 const CY = SIZE / 2
 const R = SIZE / 2 - 6
-const MAX_KNOTS = 150 // scale in m/s (displayed as ~knots for readability)
+const MAX_KMH = 500
 const NEEDLE_LENGTH = R - 12
 
-/** Needle angle: 0 at left (-90°), max at right (+90°) */
-function speedToAngle(speedMs: number): number {
-  const clamped = Math.max(0, Math.min(MAX_KNOTS, speedMs))
-  return -90 + (clamped / MAX_KNOTS) * 180
+/** Needle angle: 0 at left (-90°), max at right (+90°). Input: speed in km/h */
+function speedToAngle(kmh: number): number {
+  const clamped = Math.max(0, Math.min(MAX_KMH, kmh))
+  return -90 + (clamped / MAX_KMH) * 180
 }
 
 export function AirspeedIndicator({ telemetry, size = SIZE }: { telemetry: Telemetry | null; size?: number }) {
-  const angle = telemetry ? speedToAngle(telemetry.airspeed) : -90
+  const kmh = telemetry ? telemetry.airspeed * 3.6 : 0
+  const angle = speedToAngle(kmh)
   const needleX = CX + NEEDLE_LENGTH * Math.cos((angle * Math.PI) / 180)
   const needleY = CY + NEEDLE_LENGTH * Math.sin((angle * Math.PI) / 180)
 
@@ -22,8 +23,8 @@ export function AirspeedIndicator({ telemetry, size = SIZE }: { telemetry: Telem
     <svg width={size} height={size} viewBox={`0 0 ${SIZE} ${SIZE}`} style={{ overflow: 'visible' }}>
       <circle cx={CX} cy={CY} r={R} fill="#0d1117" stroke="#333" strokeWidth={2} />
       <circle cx={CX} cy={CY} r={R - 4} fill="none" stroke="#444" strokeWidth={1} />
-      {/* Tick marks: 0, 50, 100, 150 */}
-      {[0, 50, 100, 150].map((v) => {
+      {/* Tick marks: 0, 100, 200, 300, 400, 500 km/h */}
+      {[0, 100, 200, 300, 400, 500].map((v) => {
         const a = speedToAngle(v)
         const rad = (a * Math.PI) / 180
         const inner = R - 8
@@ -56,7 +57,7 @@ export function AirspeedIndicator({ telemetry, size = SIZE }: { telemetry: Telem
       </text>
       {telemetry && (
         <text x={CX} y={size - 6} textAnchor="middle" fill="#fff" fontSize={10} fontFamily="monospace">
-          {Math.round(telemetry.airspeed)} m/s
+          {Math.round(kmh)} km/h
         </text>
       )}
     </svg>

@@ -65,7 +65,7 @@ export function HUD({ telemetry, connected, gamepadConnected = false }: HUDProps
           <div style={{ textAlign: 'right', fontSize: 18 }}>
           {telemetry ? (
             <>
-              <div>AS {telemetry.airspeed.toFixed(0)} m/s</div>
+              <div>AS {Math.round(telemetry.airspeed * 3.6)} km/h</div>
               <div>ALT {telemetry.altitude.toFixed(0)} m</div>
               <div>THR {(telemetry.throttle * 100).toFixed(0)}%</div>
             </>
