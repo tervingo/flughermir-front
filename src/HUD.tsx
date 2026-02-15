@@ -47,7 +47,7 @@ export function HUD({ telemetry, connected, gamepadConnected = false }: HUDProps
         <div>W/S throttle · A/D aileron · ↑/↓ elevator · Q/E rudder</div>
         {gamepadConnected && (
           <div style={{ marginTop: 4, opacity: 0.9 }}>
-            Joystick: stick = roll/pitch · lever = throttle · twist = yaw
+            Joystick: stick = roll/pitch · twist = yaw (throttle = W/S only)
           </div>
         )}
       </div>
