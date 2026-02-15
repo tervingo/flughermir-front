@@ -4,9 +4,10 @@ import { AttitudeIndicator } from './AttitudeIndicator'
 interface HUDProps {
   telemetry: Telemetry | null
   connected: boolean
+  gamepadConnected?: boolean
 }
 
-export function HUD({ telemetry, connected }: HUDProps) {
+export function HUD({ telemetry, connected, gamepadConnected = false }: HUDProps) {
   return (
     <div
       style={{
@@ -23,7 +24,10 @@ export function HUD({ telemetry, connected }: HUDProps) {
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <span style={{ fontSize: 14 }}>{connected ? 'WS connected' : 'WS disconnected'}</span>
+        <span style={{ fontSize: 14 }}>
+          {connected ? 'WS connected' : 'WS disconnected'}
+          {gamepadConnected && ' · Joystick'}
+        </span>
         <div style={{ textAlign: 'right', fontSize: 18 }}>
           {telemetry ? (
             <>

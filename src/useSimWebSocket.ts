@@ -14,8 +14,9 @@ export function useSimWebSocket() {
     rudder: 0,
   })
 
-  const sendControls = useCallback((c: Partial<Controls>) => {
-    Object.assign(controlsRef.current, c)
+  const sendControls = useCallback((c: Partial<Controls> | ((prev: Controls) => Partial<Controls>)) => {
+    const update = typeof c === 'function' ? c(controlsRef.current) : c
+    Object.assign(controlsRef.current, update)
     const ws = wsRef.current
     if (ws?.readyState === WebSocket.OPEN) {
       ws.send(JSON.stringify(controlsRef.current))

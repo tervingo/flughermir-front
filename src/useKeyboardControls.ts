@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
+import type { Controls } from './types'
 
-const KEY_MAP: Record<string, { key: string; value: number }> = {
+const KEY_MAP: Record<string, { key: keyof Controls; value: number }> = {
   KeyW: { key: 'throttle', value: 1 },
   KeyS: { key: 'throttle', value: -1 },
   KeyA: { key: 'aileron', value: -1 },
@@ -14,30 +15,29 @@ const KEY_MAP: Record<string, { key: string; value: number }> = {
 const RATE = 1.5
 const STEP = 0.02
 
-export function useKeyboardControls(sendControls: (c: { throttle?: number; elevator?: number; aileron?: number; rudder?: number }) => void) {
+type SendControls = (c: Partial<Controls> | ((prev: Controls) => Partial<Controls>)) => void
+
+export function useKeyboardControls(sendControls: SendControls) {
   useEffect(() => {
-    const state = { throttle: 0.3, elevator: 0, aileron: 0, rudder: 0 }
     const keys = new Set<string>()
 
-    const flush = () => {
-      sendControls(state)
-    }
-
     const interval = setInterval(() => {
-      let changed = false
-      keys.forEach((code) => {
-        const m = KEY_MAP[code]
-        if (!m) return
-        const prev = state[m.key as keyof typeof state] as number
-        let next = prev + (m.value * STEP * RATE)
-        if (m.key === 'throttle') next = Math.max(0, Math.min(1, next))
-        else next = Math.max(-1, Math.min(1, next))
-        if (next !== prev) {
-          (state as Record<string, number>)[m.key] = next
-          changed = true
-        }
+      if (keys.size === 0) return
+      sendControls((prev) => {
+        const next = { ...prev }
+        let changed = false
+        keys.forEach((code) => {
+          const m = KEY_MAP[code]
+          if (!m) return
+          const v = (next[m.key] as number) + m.value * STEP * RATE
+          const clamped = m.key === 'throttle' ? Math.max(0, Math.min(1, v)) : Math.max(-1, Math.min(1, v))
+          if (clamped !== next[m.key]) {
+            (next as Record<string, number>)[m.key] = clamped
+            changed = true
+          }
+        })
+        return changed ? next : {}
       })
-      if (changed) flush()
     }, 1000 / 60)
 
     const onKeyDown = (e: KeyboardEvent) => {
@@ -54,7 +54,6 @@ export function useKeyboardControls(sendControls: (c: { throttle?: number; eleva
     }
     window.addEventListener('keydown', onKeyDown)
     window.addEventListener('keyup', onKeyUp)
-    flush()
     return () => {
       clearInterval(interval)
       window.removeEventListener('keydown', onKeyDown)
