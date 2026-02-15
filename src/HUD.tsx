@@ -43,8 +43,13 @@ export function HUD({ telemetry, connected, gamepadConnected = false }: HUDProps
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: 1 }}>
         <AttitudeIndicator telemetry={telemetry} size={140} />
       </div>
-      <div style={{ alignSelf: 'center', fontSize: 14 }}>
-        W/S throttle · A/D aileron · ↑/↓ elevator · Q/E rudder
+      <div style={{ alignSelf: 'center', fontSize: 14, textAlign: 'center' }}>
+        <div>W/S throttle · A/D aileron · ↑/↓ elevator · Q/E rudder</div>
+        {gamepadConnected && (
+          <div style={{ marginTop: 4, opacity: 0.9 }}>
+            Joystick: stick = roll/pitch · lever = throttle · twist = yaw
+          </div>
+        )}
       </div>
     </div>
   )
