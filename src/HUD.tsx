@@ -3,6 +3,9 @@ import type { Telemetry } from './types'
 import { AttitudeIndicator } from './AttitudeIndicator'
 import { AirspeedIndicator } from './AirspeedIndicator'
 import { Altimeter } from './Altimeter'
+import { VerticalSpeedIndicator } from './VerticalSpeedIndicator'
+import { TurnCoordinator } from './TurnCoordinator'
+import { HeadingIndicator } from './HeadingIndicator'
 import { resetSim } from './api'
 
 interface HUDProps {
@@ -83,12 +86,22 @@ export function HUD({ telemetry, connected, gamepadConnected = false, resetContr
           justifyContent: 'center',
           alignItems: 'center',
           flex: 1,
-          gap: 24,
+          flexDirection: 'column',
+          gap: 16,
         }}
       >
-        <AirspeedIndicator telemetry={telemetry} size={100} />
-        <AttitudeIndicator telemetry={telemetry} size={140} />
-        <Altimeter telemetry={telemetry} size={100} />
+        {/* Six-pack: top row */}
+        <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+          <AirspeedIndicator telemetry={telemetry} size={100} />
+          <AttitudeIndicator telemetry={telemetry} size={140} />
+          <Altimeter telemetry={telemetry} size={100} />
+        </div>
+        {/* Six-pack: bottom row */}
+        <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+          <TurnCoordinator telemetry={telemetry} size={100} />
+          <HeadingIndicator telemetry={telemetry} size={100} />
+          <VerticalSpeedIndicator telemetry={telemetry} size={100} />
+        </div>
       </div>
       <div style={{ alignSelf: 'center', fontSize: 14, textAlign: 'center' }}>
         <div>W/S throttle · A/D aileron · ↑/↓ elevator · Q/E rudder</div>

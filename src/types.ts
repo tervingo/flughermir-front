@@ -6,6 +6,10 @@ export interface Telemetry {
   theta_deg: number
   psi_deg: number
   airspeed: number
+  vertical_speed?: number  // m/s, positive = climbing
+  p_deg_s?: number  // roll rate deg/s
+  q_deg_s?: number  // pitch rate deg/s
+  r_deg_s?: number  // yaw rate deg/s
   throttle: number
 }
 
