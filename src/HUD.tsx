@@ -9,14 +9,16 @@ interface HUDProps {
   telemetry: Telemetry | null
   connected: boolean
   gamepadConnected?: boolean
+  resetControls?: () => void
 }
 
-export function HUD({ telemetry, connected, gamepadConnected = false }: HUDProps) {
+export function HUD({ telemetry, connected, gamepadConnected = false, resetControls }: HUDProps) {
   const [resetting, setResetting] = useState(false)
   const handleReset = async () => {
     setResetting(true)
     try {
       await resetSim()
+      resetControls?.() // Reset frontend controls (throttle to 0, etc.)
     } catch {
       // ignore
     } finally {

@@ -45,5 +45,13 @@ export function useSimWebSocket() {
     }
   }, [])
 
-  return { telemetry, connected, sendControls }
+  const resetControls = useCallback(() => {
+    controlsRef.current = { throttle: 0, elevator: 0, aileron: 0, rudder: 0 }
+    const ws = wsRef.current
+    if (ws?.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify(controlsRef.current))
+    }
+  }, [])
+
+  return { telemetry, connected, sendControls, resetControls }
 }
