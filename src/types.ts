@@ -11,6 +11,7 @@ export interface Telemetry {
   q_deg_s?: number  // pitch rate deg/s
   r_deg_s?: number  // yaw rate deg/s
   throttle: number
+  physics_engine?: 'jsbsim' | 'manual'  // Which physics engine is active
 }
 
 export interface Controls {
