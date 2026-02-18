@@ -49,23 +49,6 @@ export function HUD({ telemetry, connected, gamepadConnected = false, resetContr
             {connected ? 'WS connected' : 'WS disconnected'}
             {gamepadConnected && ' · Joystick'}
           </span>
-          {telemetry?.physics_engine === 'manual' && (
-            <span
-              style={{
-                fontSize: 12,
-                color: '#ffaa00',
-                fontWeight: 'bold',
-                textShadow: '0 0 8px #ffaa00, 0 0 4px black',
-              }}
-            >
-              ⚠️ Using manual physics (JSBSim unavailable)
-            </span>
-          )}
-          {telemetry?.physics_engine === 'jsbsim' && (
-            <span style={{ fontSize: 12, color: '#88ff88', opacity: 0.8 }}>
-              ✓ JSBSim active
-            </span>
-          )}
         </div>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
           <button
