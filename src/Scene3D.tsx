@@ -186,15 +186,16 @@ export function Scene3D({ telemetry }: Scene3DProps) {
 
     // Three.js coord system: X = east, Y = altitude, Z = north
     s.plane.position.set(telemetry.x, telemetry.altitude, telemetry.y)
-    s.plane.rotation.set(theta, psi, phi)
+    s.plane.rotation.set(theta, -psi, phi)
 
     // Follow-ground tracks aircraft in XZ only (stays at Y = 0)
     s.followGround.position.set(telemetry.x, 0, telemetry.y)
 
     // Chase camera — placed 40 m behind and 15 m above the aircraft
+    // Physics: psi=0 → moves north (+X in Three.js). cos(psi) = north component, sin(psi) = east component.
     const dist = 40
-    const camX = telemetry.x - dist * Math.sin(psi) * Math.cos(theta)
-    const camZ = telemetry.y - dist * Math.cos(psi) * Math.cos(theta)
+    const camX = telemetry.x - dist * Math.cos(psi) * Math.cos(theta)
+    const camZ = telemetry.y - dist * Math.sin(psi) * Math.cos(theta)
     const camY = telemetry.altitude + dist * Math.sin(theta) + 15
     s.camera.position.set(camX, camY, camZ)
     s.camera.lookAt(telemetry.x, telemetry.altitude, telemetry.y)
